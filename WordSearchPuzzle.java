@@ -8,7 +8,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 
 public class WordSearchPuzzle {
-    private char[][] puzzle ;
+    private char[][] puzzle;
     private ArrayList<String> puzzleWords;
     public int totalChars = 0;
 
@@ -24,7 +24,7 @@ public class WordSearchPuzzle {
         for(int i = 0; i < userSpecifiedWords.length; i++){  //For loop takes each passed string and 
             String word = userSpecifiedWords[i];             //adds the length of each to totalChars
             totalChars += word.length();                     //this value will be used to generate the
-        }                                                	 //grid
+        }                                                    //grid
 
         puzzleWords = new ArrayList<String>(Arrays.asList(userSpecifiedWords));      
         //New arrayList is a copy of the passed array
@@ -32,7 +32,7 @@ public class WordSearchPuzzle {
     }
 
     public WordSearchPuzzle(String wordFile, int wordCount, int shortest, int longest) {
-        puzzleWords = new ArrayList<String>();  			//New arrayList created
+        puzzleWords = new ArrayList<String>();              //New arrayList created
         File words = new File(wordFile);        
         BufferedReader br = null;
         int i = 0;
@@ -66,10 +66,36 @@ public class WordSearchPuzzle {
         puzzle = new char[dimension][dimension];
     }
 
-    public void getRand(){
-        int row = (int)(Math.random() * puzzle.length);
-        int col = (int)(Math.random() * puzzle.length);
+    private int getRandCoord(){
+        int rand = (int)(Math.random() * puzzle.length);
+        return rand;
     }
 
-    
+    private String validLocation(String word){
+        int pos = 0;
+        int row = 0;
+        int col = 0;
+        int len = word.length();
+        int i = 0;
+        char letter = ' ';
+        while(i < puzzleWords.size()){
+            word = puzzleWords.get(pos);
+            letter = word.charAt(pos);
+            row = getRandCoord();
+            col = getRandCoord();
+            
+           
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+        }
+    }
+
 }
