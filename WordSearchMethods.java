@@ -14,7 +14,7 @@ public class WordSearchMethods{
         for(int i = 0; i < userSpecifiedWords.length; i++){  //For loop takes each passed string and 
             String word = userSpecifiedWords[i];             //adds the length of each to totalChars
             totalChars += word.length();                     //this value will be used to generate the
-        }                                                	 //grid
+        }                                                    //grid
 
         puzzleWords = new ArrayList<String>(Arrays.asList(userSpecifiedWords));      
         //New arrayList is a copy of the passed array
@@ -22,7 +22,7 @@ public class WordSearchMethods{
     }
 
     public WordSearchMethods(String wordFile, int wordCount, int shortest, int longest) {
-        puzzleWords = new ArrayList<String>();  			//New arrayList created
+        puzzleWords = new ArrayList<String>();              //New arrayList created
         File words = new File(wordFile);        
         BufferedReader br = null;
         int i = 0;
@@ -56,12 +56,12 @@ public class WordSearchMethods{
         puzzle = new char[dimension][dimension];
     }
 
-    public void getRand(){
-        int row = (int)(Math.random() * puzzle.length);
-        int col = (int)(Math.random() * puzzle.length);
+    public int getRand(){
+        int rand = (int)(Math.random() * puzzle.length);
+        return rand;
     }
-    
-     private int getRandCoord(){
+
+    private int getRandCoord(){
         int rand = (int)(Math.random() * puzzle.length);
         return rand;
     }
@@ -95,30 +95,94 @@ public class WordSearchMethods{
                 place = word.charAt(letter);
                 puzzle[i][col] = place;
                 letter++;
-                orientation = "Up";			
+                orientation = "Up";         
             }
             case 'S':
             for(i = row; i < row + (len - 1); i++){
                 place = word.charAt(letter);
                 puzzle[i][col] = place;
-                letter++;	
-                orientation = "Down";			
+                letter++;   
+                orientation = "Down";           
             }
             case 'E':
             for(i = col; i > col - (len - 1); i--){
                 place = word.charAt(letter);
                 puzzle[row][i] = place;
-                letter++;	
-                orientation = "Left";			
+                letter++;   
+                orientation = "Left";           
             }
             case 'W':
             for(i = col; i < col + (len - 1); i++){
                 place = word.charAt(letter);
                 puzzle[row][i] = place;
-                letter++;	
-                orientation = "Right";			
+                letter++;   
+                orientation = "Right";          
             }
         }
         return orientation;
+    }
+
+    private char validPlacement(String word){
+        ArrayList<Character> validDirections;
+        validDirections = new ArrayList<Character>();
+        int len = word.length();
+        int i = 0;
+        int rand = 0;
+        boolean north = true;
+        boolean south = true;
+        boolean east = true;
+        boolean west = true;
+        char valid = ' ';
+
+        while(validDirections == null){
+            int testRow = getRand();
+            int testCol = getRand();
+
+            for(i = testRow; i > testRow - (len - 1) && north; i--){
+                if(puzzle[i][testCol] != '\u0000'){
+                    north = false;
+                }
+            }
+            
+            for(i = testRow; i < testRow + (len - 1) && south; i++){
+                if(puzzle[i][testCol] != '\u0000'){
+                    south = false;
+                }
+            }
+
+            for(i = testRow; i > testCol - (len - 1) && east; i--){
+                if(puzzle[i][testCol] != '\u0000'){
+                    east = false;
+                }
+            }
+            
+            for(i = testRow; i < testCol + (len - 1) && west; i++){
+                if(puzzle[i][testCol] != '\u0000'){
+                    west = false;
+                }
+            }
+            
+            if(north){
+                validDirections.add('N');
+            }
+            
+            if(south){
+                validDirections.add('S');
+            }
+            
+            if(east){
+                validDirections.add('E');
+            }
+            
+            if(west){
+                validDirections.add('W');
+            }
+                      
+        }
+        
+        rand = (int)(Math.random() * validDirections.size());
+        valid = validDirections.get(rand);
+        
+        return valid;    
     }
 }
