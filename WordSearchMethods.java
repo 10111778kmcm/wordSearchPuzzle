@@ -9,14 +9,18 @@ import java.io.IOException;
 public class WordSearchMethods{
     private char[][] puzzle;
     private ArrayList<String> puzzleWords;
+    private ArrayList<String> testWords;
     public int totalChars = 0;
+    public int nextWordLoc = 0;
+
     public WordSearchMethods(String[] userSpecifiedWords) {
         for(int i = 0; i < userSpecifiedWords.length; i++){  //For loop takes each passed string and 
             String word = userSpecifiedWords[i];             //adds the length of each to totalChars
             totalChars += word.length();                     //this value will be used to generate the
         }                                                    //grid
 
-        puzzleWords = new ArrayList<String>(Arrays.asList(userSpecifiedWords));      
+        puzzleWords = new ArrayList<String>(Arrays.asList(userSpecifiedWords));  
+        testWords = new ArrayList<String>();
         //New arrayList is a copy of the passed array
         generateWordSearchPuzzle(totalChars);
     }
@@ -66,62 +70,12 @@ public class WordSearchMethods{
         return rand;
     }
 
-    private String validLocation(String word){
-        int pos = 0;
-        int row = 0;
-        int col = 0;
-        int len = word.length();
-        int i = 0;
-        char letter = ' ';
-        while(i < puzzleWords.size()){
-            word = puzzleWords.get(pos);
-            letter = word.charAt(pos);
-            row = getRandCoord();
-            col = getRandCoord(); 
-        }
-        return "/0";
+    private String getWord(){
+        String word = puzzleWords.get(nextWordLoc);
+        nextWordLoc++;
+        return word;
     }
-
-    private String placeWordInClear(String word, int row, int col, char direction){
-        int len = word.length();
-        boolean valid = false;
-        int i = 0;
-        int letter = 0;
-        String orientation = "";
-        char place = ' ';
-        switch(direction){
-            case 'N': 
-            for(i = row; i > row - (len - 1); i--){
-                place = word.charAt(letter);
-                puzzle[i][col] = place;
-                letter++;
-                orientation = "Up";         
-            }
-            case 'S':
-            for(i = row; i < row + (len - 1); i++){
-                place = word.charAt(letter);
-                puzzle[i][col] = place;
-                letter++;   
-                orientation = "Down";           
-            }
-            case 'E':
-            for(i = col; i > col - (len - 1); i--){
-                place = word.charAt(letter);
-                puzzle[row][i] = place;
-                letter++;   
-                orientation = "Left";           
-            }
-            case 'W':
-            for(i = col; i < col + (len - 1); i++){
-                place = word.charAt(letter);
-                puzzle[row][i] = place;
-                letter++;   
-                orientation = "Right";          
-            }
-        }
-        return orientation;
-    }
-
+    
     private char validPlacement(String word){
         ArrayList<Character> validDirections;
         validDirections = new ArrayList<Character>();
@@ -143,7 +97,7 @@ public class WordSearchMethods{
                     north = false;
                 }
             }
-            
+
             for(i = testRow; i < testRow + (len - 1) && south; i++){
                 if(puzzle[i][testCol] != '\u0000'){
                     south = false;
@@ -155,34 +109,34 @@ public class WordSearchMethods{
                     east = false;
                 }
             }
-            
+
             for(i = testRow; i < testCol + (len - 1) && west; i++){
                 if(puzzle[i][testCol] != '\u0000'){
                     west = false;
                 }
             }
-            
+
             if(north){
                 validDirections.add('N');
             }
-            
+
             if(south){
                 validDirections.add('S');
             }
-            
+
             if(east){
                 validDirections.add('E');
             }
-            
+
             if(west){
                 validDirections.add('W');
             }
-                      
+
         }
-        
+
         rand = (int)(Math.random() * validDirections.size());
         valid = validDirections.get(rand);
-        
+
         return valid;    
     }
 }
