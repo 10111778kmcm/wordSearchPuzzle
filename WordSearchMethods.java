@@ -51,6 +51,41 @@ public class WordSearchMethods{
         int row = (int)(Math.random() * puzzle.length);
         int col = (int)(Math.random() * puzzle.length);
     }
+    
+     private int getRandCoord(){
+        int rand = (int)(Math.random() * puzzle.length);
+        return rand;
+    }
+
+    private String validLocation(String word){
+        int pos = 0;
+        int row = 0;
+        int col = 0;
+        int len = word.length();
+        int i = 0;
+        char letter = ' ';
+        while(i < puzzleWords.size()){
+            word = puzzleWords.get(pos);
+            letter = word.charAt(pos);
+            row = getRandCoord();
+            col = getRandCoord(); 
+        }
+    }
+
+    private String validLocation(String word){
+        int pos = 0;
+        int row = 0;
+        int col = 0;
+        int len = word.length();
+        int i = 0;
+        char letter = ' ';
+        while(i < puzzleWords.size()){
+            word = puzzleWords.get(pos);
+            letter = word.charAt(pos);
+            row = getRandCoord();
+            col = getRandCoord();  
+        }
+    }
 
     public char placement(String word, int row, int col){
         char[] directions = {'N','S','E','W'}; 		//N,S,E,W
