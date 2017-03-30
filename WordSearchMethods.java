@@ -1,7 +1,16 @@
-
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 public class WordSearchMethods{
-    
-    public WordSearchPuzzle(String[] userSpecifiedWords) {
+    private char[][] puzzle;
+    private ArrayList<String> puzzleWords;
+    public int totalChars = 0;
+    public WordSearchMethods(String[] userSpecifiedWords) {
         for(int i = 0; i < userSpecifiedWords.length; i++){  //For loop takes each passed string and 
             String word = userSpecifiedWords[i];             //adds the length of each to totalChars
             totalChars += word.length();                     //this value will be used to generate the
@@ -12,7 +21,7 @@ public class WordSearchMethods{
         generateWordSearchPuzzle(totalChars);
     }
 
-    public WordSearchPuzzle(String wordFile, int wordCount, int shortest, int longest) {
+    public WordSearchMethods(String wordFile, int wordCount, int shortest, int longest) {
         puzzleWords = new ArrayList<String>();  			//New arrayList created
         File words = new File(wordFile);        
         BufferedReader br = null;
@@ -70,80 +79,7 @@ public class WordSearchMethods{
             row = getRandCoord();
             col = getRandCoord(); 
         }
-    }
-
-    private String validLocation(String word){
-        int pos = 0;
-        int row = 0;
-        int col = 0;
-        int len = word.length();
-        int i = 0;
-        char letter = ' ';
-        while(i < puzzleWords.size()){
-            word = puzzleWords.get(pos);
-            letter = word.charAt(pos);
-            row = getRandCoord();
-            col = getRandCoord();  
-        }
-    }
-
-    public char placement(String word, int row, int col){
-        char[] directions = {'N','S','E','W'}; 		//N,S,E,W
-        boolean validDirection = false;
-        int len = word.length();
-        String[] validDirections = new String[3];
-        char place = ' ';
-        int letter = 0;
-        while(!validDirection){
-            int direction = (int)((Math.random() * 4) + 1);
-            String validPlacement = "";	
-            switch(direction){
-                case 'N': 
-                if(row - len >= 0){		
-                    for(int i = row; i > row - len; i--){
-                        place = word.charAt(letter);
-                        puzzle[i][col] = place;
-                        letter++;
-                        orientation = "Up";			
-                    }		//North
-                }
-                break;
-
-                case 'S':	
-                if(row + len <= puzzle.length - 1){	
-                    for(i = row; i < row + len; i++){
-                        place = word.charAt(letter);
-                        puzzle[i][col] = place;
-                        letter++;	
-                        orientation = "Down";			
-                    }	
-                }		
-                break;
-
-                case 'E':
-                if(col - len >= 0){		
-                    for(i = col; i > col - len; i--){
-                        place = word.charAt(letter);
-                        puzzle[row][i] = place;
-                        letter++;	
-                        orientation = "Left";			
-                    }					//East
-                }	
-                break;
-
-                case 'W':
-                if(col + len <= puzzle[0].length - 1){					//West
-                    for(i = col; i < col + len; i++){
-                        place = word.charAt(letter);
-                        puzzle[row][i] = place;
-                        letter++;	
-                        orientation = "Right";			
-                    }
-                }
-                break;
-            }
-        }
-        return directions[1];
+        return "/0";
     }
 
     private String placeWordInClear(String word, int row, int col, char direction){
@@ -184,25 +120,5 @@ public class WordSearchMethods{
             }
         }
         return orientation;
-    }
-    
-    private int getRandCoord(){
-        int rand = (int)(Math.random() * puzzle.length);
-        return rand;
-    }
-    
-    private String validLocation(String word){
-        int pos = 0;
-        int row = 0;
-        int col = 0;
-        int len = word.length();
-        int i = 0;
-        char letter = ' ';
-        while(i < puzzleWords.size()){
-            word = puzzleWords.get(pos);
-            letter = word.charAt(pos);
-            row = getRandCoord();
-            col = getRandCoord();  
-        }
     }
 }
