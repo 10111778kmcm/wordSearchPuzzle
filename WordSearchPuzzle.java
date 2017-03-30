@@ -18,14 +18,6 @@ public class WordSearchPuzzle {
         int testRow = 0;
         int testCol = 0; 
     }   
-}
-    
-
-<<<<<<< HEAD
-
-
-=======
-    }
 
     public WordSearchPuzzle(String[] userSpecifiedWords) {
         for(int i = 0; i < userSpecifiedWords.length; i++){  //For loop takes each passed string and 
@@ -89,21 +81,24 @@ public class WordSearchPuzzle {
             word = puzzleWords.get(pos);
             letter = word.charAt(pos);
             row = getRandCoord();
-            col = getRandCoord();
-            
-           
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
+            col = getRandCoord(); 
+        }
+    }
+
+    private String validLocation(String word){
+        int pos = 0;
+        int row = 0;
+        int col = 0;
+        int len = word.length();
+        int i = 0;
+        char letter = ' ';
+        while(i < puzzleWords.size()){
+            word = puzzleWords.get(pos);
+            letter = word.charAt(pos);
+            row = getRandCoord();
+            col = getRandCoord();  
         }
     }
 
 }
->>>>>>> origin/master
+
