@@ -91,28 +91,28 @@ public class WordSearchMethods{
         char place = ' ';
         switch(direction){
             case 'N': 
-            for(i = row; i > row - len; i--){
+            for(i = row; i > row - (len - 1); i--){
                 place = word.charAt(letter);
                 puzzle[i][col] = place;
                 letter++;
                 orientation = "Up";			
             }
             case 'S':
-            for(i = row; i < row + len; i++){
+            for(i = row; i < row + (len - 1); i++){
                 place = word.charAt(letter);
                 puzzle[i][col] = place;
                 letter++;	
                 orientation = "Down";			
             }
             case 'E':
-            for(i = col; i > col - len; i--){
+            for(i = col; i > col - (len - 1); i--){
                 place = word.charAt(letter);
                 puzzle[row][i] = place;
                 letter++;	
                 orientation = "Left";			
             }
             case 'W':
-            for(i = col; i < col + len; i++){
+            for(i = col; i < col + (len - 1); i++){
                 place = word.charAt(letter);
                 puzzle[row][i] = place;
                 letter++;	
