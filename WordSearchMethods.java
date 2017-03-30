@@ -70,13 +70,13 @@ public class WordSearchMethods{
         return rand;
     }
 
-    private String getWord(){
+    public String getWord(){
         String word = puzzleWords.get(nextWordLoc);
         nextWordLoc++;
         return word;
     }
 
-    private char validPlacement(String word){
+    public char validPlacement(String word){
         ArrayList<Character> validDirections;
         validDirections = new ArrayList<Character>();
         int len = word.length();
@@ -173,8 +173,8 @@ public class WordSearchMethods{
                 puzzle[row][i] = toPlace;
                 letPos++;
             }
-
             break;
+            
             case 'W':
             for(i = col; i < col - (len - 1); i++){
                 toPlace = word.charAt(letPos);
