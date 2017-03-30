@@ -75,7 +75,7 @@ public class WordSearchMethods{
         nextWordLoc++;
         return word;
     }
-    
+
     private char validPlacement(String word){
         ArrayList<Character> validDirections;
         validDirections = new ArrayList<Character>();
@@ -138,5 +138,54 @@ public class WordSearchMethods{
         valid = validDirections.get(rand);
 
         return valid;    
+    }
+
+    private boolean placeWord(String word, char direction, int row, int col){
+        boolean placed = false;
+        char toPlace = ' ';
+        int i = 0;
+        int letPos = 0;
+        int len = word.length();
+
+        switch(direction){
+            case 'N':
+            letPos = 0;
+            for(i = row; i > row - (len - 1); i--){
+                toPlace = word.charAt(letPos); 
+                puzzle[i][col] = toPlace;
+                letPos++;
+            } 
+            break;
+
+            case 'S':
+            letPos = 0;
+            for(i = row; i < row + (len - 1); i++){
+                toPlace = word.charAt(letPos);
+                puzzle[i][col] = toPlace;
+                letPos++;
+            }
+            break;
+
+            case 'E':
+            letPos = 0;
+            for(i = col; i > col - (len - 1); i--){
+                toPlace = word.charAt(letPos);
+                puzzle[row][i] = toPlace;
+                letPos++;
+            }
+
+            break;
+            case 'W':
+            for(i = col; i < col - (len - 1); i++){
+                toPlace = word.charAt(letPos);
+                puzzle[row][i] = toPlace;
+                letPos++;
+            }
+            break;
+        }
+        if(i == word.length() - 1){
+            placed = true; 
+        }
+        return placed;
     }
 }
