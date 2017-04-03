@@ -27,19 +27,19 @@ public class WordSearchMethods{
 
     public WordSearchMethods(String wordFile, int wordCount, int shortest, int longest) {
         puzzleWords = new ArrayList<String>();              //New arrayList created
+        ArrayList<String> validWords = new ArrayList<String>();
         File words = new File(wordFile);        
         BufferedReader br = null;
         int i = 0;
+        int rand = 0;
         try{
             FileReader fr = new FileReader(words);
             br = new BufferedReader(fr);
             String word = br.readLine();
-            while(word != null && i < wordCount){
+            while(word != null){
                 if(word.length() >= shortest){
-                    if(word.length() <= longest){
-                        puzzleWords.add(word);
-                        totalChars += word.length();
-                        i++;
+                    if(word.length() <= longest){           //All the words that satisfy the length arguments
+                        validWords.add(word);               //moved to a new ArrayList
                     }
                 }
                 word = br.readLine();            
@@ -51,6 +51,15 @@ public class WordSearchMethods{
         catch(IOException e){
             System.out.println("Unable to close file: " + words.toString());
         }
+        while(i < wordCount){
+            rand = (int)(Math.random() * validWords.size());    //Randomly select words from the created validWords list
+            String validWord = validWords.get(rand);            //Add to the puzzleWords list. Stop when wordCount is 
+            totalChars += validWord.length();                   //satisfied
+            puzzleWords.add(validWord);
+            i++;
+        }
+        
+        
         generateWordSearchPuzzle(totalChars);
     }
 
