@@ -8,10 +8,11 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 public class WordSearchMethods{
     private char[][] puzzle;
-    private ArrayList<String> puzzleWords;
-    private ArrayList<String> testWords;
+    public ArrayList<String> puzzleWords;
     public int totalChars = 0;
     public int nextWordLoc = 0;
+    public static int testCol = 0;
+    public static int testRow = 0;
 
     public WordSearchMethods(String[] userSpecifiedWords) {
         for(int i = 0; i < userSpecifiedWords.length; i++){  //For loop takes each passed string and 
@@ -20,7 +21,6 @@ public class WordSearchMethods{
         }                                                    //grid
 
         puzzleWords = new ArrayList<String>(Arrays.asList(userSpecifiedWords));  
-        testWords = new ArrayList<String>();
         //New arrayList is a copy of the passed array
         generateWordSearchPuzzle(totalChars);
     }
@@ -88,6 +88,7 @@ public class WordSearchMethods{
     public char validPlacement(String word){
         ArrayList<Character> validDirections;
         validDirections = new ArrayList<Character>();
+        boolean listPopulated = false;
         int len = word.length();
         int i = 0;
         int rand = 0;
@@ -97,9 +98,9 @@ public class WordSearchMethods{
         boolean west = true;
         char valid = ' ';
 
-        while(validDirections == null){
-            int testRow = getRand();
-            int testCol = getRand();
+        while(!listPopulated){
+            testRow = getRand();
+            testCol = getRand();
 
             for(i = testRow; i > testRow - (len - 1) && north; i--){
                 if(puzzle[i][testCol] != '\u0000'){
@@ -140,6 +141,10 @@ public class WordSearchMethods{
             if(west){
                 validDirections.add('W');
             }
+            
+            if(validDirections.size() > 0){
+                listPopulated = true;
+            }
 
         }
 
@@ -149,12 +154,15 @@ public class WordSearchMethods{
         return valid;    
     }
 
-    private boolean placeWord(String word, char direction, int row, int col){
+
+   public boolean placeWord(String word, char direction){
         boolean placed = false;
         char toPlace = ' ';
         int i = 0;
         int letPos = 0;
         int len = word.length();
+        int row = testRow;
+        int col = testCol;
 
         switch(direction){
             case 'N':
@@ -196,5 +204,13 @@ public class WordSearchMethods{
             placed = true; 
         }
         return placed;
+    }
+    
+    public int getTestCol(){
+        return testCol;
+    }
+    
+    public int getTestRow(){
+        return testRow;
     }
 }
