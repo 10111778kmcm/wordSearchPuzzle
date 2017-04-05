@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Comparator;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -58,8 +59,9 @@ public class WordSearchMethods{
             puzzleWords.add(validWord);
             i++;
         }
-        
-        
+
+        Collections.sort(validWords);
+
         generateWordSearchPuzzle(totalChars);
     }
 
@@ -90,39 +92,60 @@ public class WordSearchMethods{
         validDirections = new ArrayList<Character>();
         boolean listPopulated = false;
         int len = word.length();
-        int i = 0;
-        int rand = 0;
         boolean north = true;
         boolean south = true;
         boolean east = true;
         boolean west = true;
+        int i = 0;
+        int rand = 0;
         char valid = ' ';
 
         while(!listPopulated){
             testRow = getRand();
             testCol = getRand();
 
-            for(i = testRow; i > testRow - (len - 1) && north; i--){
-                if(puzzle[i][testCol] != '\u0000'){
+            north = true;
+            south = true;
+            east = true;
+            west = true;
+
+            for(i = testRow; i >= testRow - (len - 1) && north; i--){
+                if(i >= 0 && i < puzzle.length){
+                    if(puzzle[i][testCol] != '\u0000'){
+                        north = false;
+                    }
+                }else{
                     north = false;
                 }
             }
 
-            for(i = testRow; i < testRow + (len - 1) && south; i++){
-                if(puzzle[i][testCol] != '\u0000'){
+            for(i = testRow; i <= testRow + (len - 1) && south; i++){
+                if(i >= 0 && i < puzzle.length){
+                    if(puzzle[i][testCol] != '\u0000'){
+                        south = false;
+                    }
+                }else{
                     south = false;
-                }
+                }   
             }
 
-            for(i = testRow; i > testCol - (len - 1) && east; i--){
-                if(puzzle[i][testCol] != '\u0000'){
-                    east = false;
-                }
-            }
-
-            for(i = testRow; i < testCol + (len - 1) && west; i++){
-                if(puzzle[i][testCol] != '\u0000'){
+            for(i = testRow; i >= testCol - (len - 1) && west; i--){
+                if(i >= 0 && i < puzzle.length){
+                    if(puzzle[testRow][i] != '\u0000'){
+                        west = false;
+                    }
+                }else{
                     west = false;
+                }
+            }
+
+            for(i = testRow; i <= testCol + (len - 1) && east; i++){
+                if(i >= 0 && i < puzzle.length){
+                    if(puzzle[testRow][i] != '\u0000'){
+                        east = false;
+                    }
+                }else{
+                    east = false;
                 }
             }
 
@@ -141,7 +164,7 @@ public class WordSearchMethods{
             if(west){
                 validDirections.add('W');
             }
-            
+
             if(validDirections.size() > 0){
                 listPopulated = true;
             }
@@ -154,8 +177,7 @@ public class WordSearchMethods{
         return valid;    
     }
 
-
-   public boolean placeWord(String word, char direction){
+    public boolean placeWord(String word, char direction){
         boolean placed = false;
         char toPlace = ' ';
         int i = 0;
@@ -167,7 +189,7 @@ public class WordSearchMethods{
         switch(direction){
             case 'N':
             letPos = 0;
-            for(i = row; i > row - (len - 1); i--){
+            for(i = row; i >= row - (len - 1); i--){
                 toPlace = word.charAt(letPos); 
                 puzzle[i][col] = toPlace;
                 letPos++;
@@ -176,7 +198,7 @@ public class WordSearchMethods{
 
             case 'S':
             letPos = 0;
-            for(i = row; i < row + (len - 1); i++){
+            for(i = row; i <= row + (len - 1); i++){
                 toPlace = word.charAt(letPos);
                 puzzle[i][col] = toPlace;
                 letPos++;
@@ -185,32 +207,47 @@ public class WordSearchMethods{
 
             case 'E':
             letPos = 0;
-            for(i = col; i > col - (len - 1); i--){
+            for(i = col; i <= col + (len - 1); i++){
                 toPlace = word.charAt(letPos);
                 puzzle[row][i] = toPlace;
                 letPos++;
             }
             break;
-            
+
             case 'W':
-            for(i = col; i < col - (len - 1); i++){
+            for(i = col; i >= col - (len - 1); i--){
                 toPlace = word.charAt(letPos);
                 puzzle[row][i] = toPlace;
                 letPos++;
             }
             break;
         }
+
         if(i == word.length() - 1){
             placed = true; 
         }
+
         return placed;
     }
-    
+
     public int getTestCol(){
         return testCol;
     }
-    
+
     public int getTestRow(){
         return testRow;
     }
+
+    public void display(){
+        for(int i = 0; i < puzzle.length; i++){
+            for(int j = 0; j < puzzle.length; j++) {
+                System.out.print(puzzle[i][j]+" ");
+            }
+            System.out.println("");
+        }
+
+    }
+
 }
+
+
