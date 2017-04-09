@@ -13,6 +13,7 @@ public class WordSearchDriver {
             wordSearch.display();
             i++;
         }//How to get the coordinates?
+        wordSearch.fillGrid();
         wordSearch.display();
     }   
 }

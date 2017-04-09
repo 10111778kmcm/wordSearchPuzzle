@@ -101,52 +101,65 @@ public class WordSearchMethods{
         char valid = ' ';
 
         while(!listPopulated){
+            validDirections.clear();
             testRow = getRand();
             testCol = getRand();
+            char test = ' ';
 
             north = true;
             south = true;
             east = true;
             west = true;
 
-            for(i = testRow; i >= testRow - (len - 1) && north; i--){
-                if(i >= 0 && i < puzzle.length){
-                    if(puzzle[i][testCol] != '\u0000'){
+            if(puzzle[testRow][testCol] == '\u0000'){
+                for(i = testRow; i >= testRow - (len - 1) && north; i--){
+                    if(i >= 0 && i < puzzle.length){
+                        test = puzzle[i][testCol];
+                        if(test != '\u0000'){
+                            north = false;
+                        }
+                    }else{
                         north = false;
                     }
-                }else{
-                    north = false;
                 }
-            }
 
-            for(i = testRow; i <= testRow + (len - 1) && south; i++){
-                if(i >= 0 && i < puzzle.length){
-                    if(puzzle[i][testCol] != '\u0000'){
+                for(i = testRow; i <= testRow + (len - 1) && south; i++){
+                    if(i >= 0 && i < puzzle.length){
+                        test = puzzle[i][testCol];
+                        if(test != '\u0000'){
+                            south = false;
+                        }
+                    }else{
                         south = false;
-                    }
-                }else{
-                    south = false;
-                }   
-            }
+                    }   
+                }
 
-            for(i = testRow; i >= testCol - (len - 1) && west; i--){
-                if(i >= 0 && i < puzzle.length){
-                    if(puzzle[testRow][i] != '\u0000'){
+                for(i = testRow; i >= testCol - (len - 1) && west; i--){
+                    if(i >= 0 && i < puzzle.length){
+                        test = puzzle[testRow][i];
+                        if(test != '\u0000'){
+                            west = false;
+                        }
+                    }else{
                         west = false;
                     }
-                }else{
-                    west = false;
                 }
-            }
 
-            for(i = testRow; i <= testCol + (len - 1) && east; i++){
-                if(i >= 0 && i < puzzle.length){
-                    if(puzzle[testRow][i] != '\u0000'){
+                for(i = testRow; i <= testCol + (len - 1) && east; i++){
+                    if(i >= 0 && i < puzzle.length){
+                        test = puzzle[testRow][i];
+                        if(test != '\u0000'){
+                            east = false;
+                        }
+                    }else{
                         east = false;
                     }
-                }else{
-                    east = false;
                 }
+            }else{
+                north = false;
+                south = false;
+                east = false;
+                west = false;
             }
 
             if(north){
@@ -238,6 +251,16 @@ public class WordSearchMethods{
         return testRow;
     }
 
+    public void fillGrid(){
+        for(int i = 0; i < puzzle.length; i++){
+            for(int j = 0; j < puzzle.length; j++) {
+                if(puzzle[i][j] == '\u0000'){
+                    puzzle[i][j] = 'X';
+                }
+            }
+        }
+    }
+
     public void display(){
         for(int i = 0; i < puzzle.length; i++){
             for(int j = 0; j < puzzle.length; j++) {
@@ -246,8 +269,9 @@ public class WordSearchMethods{
             System.out.println("");
         }
 
+        System.out.println("-----------------------");
+
     }
 
 }
-
 
