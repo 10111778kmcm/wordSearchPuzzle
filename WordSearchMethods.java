@@ -2,6 +2,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.List;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -14,6 +15,7 @@ public class WordSearchMethods{
     public int nextWordLoc = 0;
     public static int testCol = 0;
     public static int testRow = 0;
+    String word = "/0";
 
     public WordSearchMethods(String[] userSpecifiedWords) {
         for(int i = 0; i < userSpecifiedWords.length; i++){  //For loop takes each passed string and 
@@ -23,7 +25,7 @@ public class WordSearchMethods{
 
         puzzleWords = new ArrayList<String>(Arrays.asList(userSpecifiedWords));  
         //New arrayList is a copy of the passed array
-        generateWordSearchPuzzle(totalChars);
+        generatePuzzleGrid(totalChars);
     }
 
     public WordSearchMethods(String wordFile, int wordCount, int shortest, int longest) {
@@ -62,10 +64,24 @@ public class WordSearchMethods{
 
         Collections.sort(validWords);
 
-        generateWordSearchPuzzle(totalChars);
+        generatePuzzleGrid(totalChars);
     }
-
-    private void generateWordSearchPuzzle(int totalChars){
+   
+    //main method to use
+    public void generateWordSearchPuzzle(){
+        int wordCounter = 0;
+        char toPlace = ' ';
+        while(wordCounter < puzzleWords.size()){
+            word = getWord();
+            toPlace = validPlacement(word);
+            placeWord(word, toPlace); 
+            //showWordSearchPuzzle();
+            wordCounter++;
+        }
+        fillGrid();
+    }
+    
+    private void generatePuzzleGrid(int totalChars){
         double size = totalChars * 1.75;
         int dimension = (int)(Math.sqrt(size));
         puzzle = new char[dimension][dimension];
@@ -105,16 +121,17 @@ public class WordSearchMethods{
             testRow = getRand();
             testCol = getRand();
             char test = ' ';
-
+            char letter = ' ';
             north = true;
             south = true;
             east = true;
             west = true;
-
+            //changed for loops so the shouldnt go over the edge of the grid
             if(puzzle[testRow][testCol] == '\u0000'){
                 for(i = testRow; i >= testRow - (len - 1) && north; i--){
                     if(i >= 0 && i < puzzle.length){
                         test = puzzle[i][testCol];
+                        //letter = word.charAt(i);
                         if(test != '\u0000'){
                             north = false;
                         }
@@ -260,18 +277,48 @@ public class WordSearchMethods{
             }
         }
     }
-
-    public void display(){
+    
+    //new display - as it says on spec
+    public void showWordSearchPuzzle(){
         for(int i = 0; i < puzzle.length; i++){
             for(int j = 0; j < puzzle.length; j++) {
                 System.out.print(puzzle[i][j]+" ");
             }
             System.out.println("");
         }
-
-        System.out.println("-----------------------");
+        
+        System.out.println("------** Word List **------");
+        for(int i = 0; i < puzzleWords.size(); i++){
+            System.out.print(puzzleWords.get(i) + ", ");
+            if(i % 3 == 0 && i != 0){
+                System.out.println();
+            }
+        }
 
     }
-
+    
+    //putting in methods that are recquired by the spec
+    
+    //return the list of words used in the puzzle
+    public List<String> getWordSearchList(){
+        return puzzleWords;
+    }
+    
+    //returning puzzle as 2D array grid
+    public char[][] getPuzzleAsGrid(){
+        return puzzle;
+    }
+    
+    //returning puzzle as a string
+    public String getPuzzleAsString(){
+        String puzzleOutput = "\0";
+        for(int i = 0; i < puzzle.length; i++){
+            for(int j = 0; j < puzzle.length; j++) {
+                puzzleOutput += puzzle[i][j];
+            }
+            System.out.println("\n");
+        }
+        return puzzleOutput;
+    }
 }
 
