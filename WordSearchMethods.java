@@ -15,6 +15,7 @@ public class WordSearchMethods{
     public int nextWordLoc = 0;
     public static int testCol = 0;
     public static int testRow = 0;
+    private String alphabet = "abcdefghijklmnopqrstuvwxyz";
     String word = "/0";
 
     public WordSearchMethods(String[] userSpecifiedWords) {
@@ -71,6 +72,7 @@ public class WordSearchMethods{
     public void generateWordSearchPuzzle(){
         int wordCounter = 0;
         char toPlace = ' ';
+        fillSpaces();
         while(wordCounter < puzzleWords.size()){
             word = getWord();
             toPlace = validPlacement(word);
@@ -79,6 +81,7 @@ public class WordSearchMethods{
             wordCounter++;
         }
         fillGrid();
+        showWordSearchPuzzle();
     }
     
     private void generatePuzzleGrid(int totalChars){
@@ -102,7 +105,7 @@ public class WordSearchMethods{
         nextWordLoc++;
         return word;
     }
-
+    
     public char validPlacement(String word){
         ArrayList<Character> validDirections;
         validDirections = new ArrayList<Character>();
@@ -112,7 +115,7 @@ public class WordSearchMethods{
         boolean south = true;
         boolean east = true;
         boolean west = true;
-        int i = 0;
+        //int i = 0;
         int rand = 0;
         char valid = ' ';
 
@@ -127,12 +130,12 @@ public class WordSearchMethods{
             east = true;
             west = true;
             //changed for loops so the shouldnt go over the edge of the grid
-            if(puzzle[testRow][testCol] == '\u0000'){
-                for(i = testRow; i >= testRow - (len - 1) && north; i--){
+            if(puzzle[testRow][testCol] == ' '){
+                for(int i = testRow; i >= testRow - (len - 1) && north; i--){
                     if(i >= 0 && i < puzzle.length){
                         test = puzzle[i][testCol];
                         //letter = word.charAt(i);
-                        if(test != '\u0000'){
+                        if(alphabet.indexOf(test) >= 0){
                             north = false;
                         }
                     }else{
@@ -140,10 +143,10 @@ public class WordSearchMethods{
                     }
                 }
 
-                for(i = testRow; i <= testRow + (len - 1) && south; i++){
+                for(int i = testRow; i <= testRow + (len - 1) && south; i++){
                     if(i >= 0 && i < puzzle.length){
                         test = puzzle[i][testCol];
-                        if(test != '\u0000'){
+                        if(alphabet.indexOf(test) >= 0){
                             south = false;
                         }
                     }else{
@@ -151,10 +154,10 @@ public class WordSearchMethods{
                     }   
                 }
 
-                for(i = testRow; i >= testCol - (len - 1) && west; i--){
+                for(int i = testCol; i >= testCol - (len - 1) && west; i--){
                     if(i >= 0 && i < puzzle.length){
                         test = puzzle[testRow][i];
-                        if(test != '\u0000'){
+                        if(alphabet.indexOf(test) >= 0){
                             west = false;
                         }
                     }else{
@@ -162,10 +165,10 @@ public class WordSearchMethods{
                     }
                 }
 
-                for(i = testRow; i <= testCol + (len - 1) && east; i++){
+                for(int i = testCol; i <= testCol + (len - 1) && east; i++){
                     if(i >= 0 && i < puzzle.length){
                         test = puzzle[testRow][i];
-                        if(test != '\u0000'){
+                        if(alphabet.indexOf(test) >= 0){
                             east = false;
                         }
                     }else{
@@ -173,6 +176,7 @@ public class WordSearchMethods{
                     }
                 }
             }else{
+                System.out.println("TRIGGERRRR");
                 north = false;
                 south = false;
                 east = false;
@@ -271,9 +275,17 @@ public class WordSearchMethods{
     public void fillGrid(){
         for(int i = 0; i < puzzle.length; i++){
             for(int j = 0; j < puzzle.length; j++) {
-                if(puzzle[i][j] == '\u0000'){
+                if(puzzle[i][j] == ' '){
                     puzzle[i][j] = 'X';
                 }
+            }
+        }
+    }
+    
+    public void fillSpaces(){
+        for(int i = 0; i < puzzle.length; i++){
+            for(int j = 0; j < puzzle.length; j++) {
+                puzzle[i][j] = ' ';   
             }
         }
     }
