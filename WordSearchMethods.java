@@ -15,7 +15,7 @@ public class WordSearchMethods{
     public int nextWordLoc = 0;
     public static int testCol = 0;
     public static int testRow = 0;
-    private String alphabet = "abcdefghijklmnopqrstuvwxyz";
+    private String alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     String word = "/0";
 
     public WordSearchMethods(String[] userSpecifiedWords) {
@@ -81,7 +81,6 @@ public class WordSearchMethods{
             wordCounter++;
         }
         fillGrid();
-        showWordSearchPuzzle();
     }
     
     private void generatePuzzleGrid(int totalChars){
@@ -176,7 +175,6 @@ public class WordSearchMethods{
                     }
                 }
             }else{
-                System.out.println("TRIGGERRRR");
                 north = false;
                 south = false;
                 east = false;
@@ -219,12 +217,12 @@ public class WordSearchMethods{
         int len = word.length();
         int row = testRow;
         int col = testCol;
-
+        
         switch(direction){
             case 'N':
             letPos = 0;
             for(i = row; i >= row - (len - 1); i--){
-                toPlace = word.charAt(letPos); 
+                toPlace = Character.toUpperCase(word.charAt(letPos)); 
                 puzzle[i][col] = toPlace;
                 letPos++;
             } 
@@ -233,7 +231,7 @@ public class WordSearchMethods{
             case 'S':
             letPos = 0;
             for(i = row; i <= row + (len - 1); i++){
-                toPlace = word.charAt(letPos);
+                toPlace = Character.toUpperCase(word.charAt(letPos));
                 puzzle[i][col] = toPlace;
                 letPos++;
             }
@@ -242,7 +240,7 @@ public class WordSearchMethods{
             case 'E':
             letPos = 0;
             for(i = col; i <= col + (len - 1); i++){
-                toPlace = word.charAt(letPos);
+                toPlace = Character.toUpperCase(word.charAt(letPos));
                 puzzle[row][i] = toPlace;
                 letPos++;
             }
@@ -250,7 +248,7 @@ public class WordSearchMethods{
 
             case 'W':
             for(i = col; i >= col - (len - 1); i--){
-                toPlace = word.charAt(letPos);
+                toPlace = Character.toUpperCase(word.charAt(letPos));
                 puzzle[row][i] = toPlace;
                 letPos++;
             }
@@ -273,10 +271,12 @@ public class WordSearchMethods{
     }
 
     public void fillGrid(){
+        char fillWith = ' ';
         for(int i = 0; i < puzzle.length; i++){
             for(int j = 0; j < puzzle.length; j++) {
+                fillWith = alphabet.charAt((int)(Math.random() * (alphabet.length() - 1)));
                 if(puzzle[i][j] == ' '){
-                    puzzle[i][j] = 'X';
+                    puzzle[i][j] = fillWith;
                 }
             }
         }
@@ -299,6 +299,7 @@ public class WordSearchMethods{
             System.out.println("");
         }
         
+        System.out.println();
         System.out.println("------** Word List **------");
         for(int i = 0; i < puzzleWords.size(); i++){
             System.out.print(puzzleWords.get(i) + ", ");
@@ -306,6 +307,7 @@ public class WordSearchMethods{
                 System.out.println();
             }
         }
+        System.out.println();
 
     }
     
