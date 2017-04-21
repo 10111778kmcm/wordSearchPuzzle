@@ -57,9 +57,9 @@ public class WordSearch{
             String word = br.readLine();
             while(word != null){
                 if(word.length() >= shortest){
-                    if(word.length() <= longest){           //All the words that satisfy the length arguments
-                        if(!validWords.contains(word)){
-                            validWords.add(word);           //moved to a new ArrayList
+                    if(word.length() <= longest){               //All the words that satisfy the length arguments
+                        if(!validWords.contains(word)){          //moved to a new ArrayList
+                            validWords.add(word);
                         }
                     }
                 }
@@ -83,7 +83,6 @@ public class WordSearch{
         generatePuzzleGrid(totalChars);                         //The puzzle grid is generated, it's dimensions based on the totalChars
         //variable, contains null characters on creation.
     }
-
     //main method to use
     public void generateWordSearchPuzzle(){
         int wordCounter = 0;
